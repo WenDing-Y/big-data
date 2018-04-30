@@ -54,6 +54,12 @@
             <artifactId>zookeeper</artifactId>
             <version>3.4.11</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.apache.sqoop</groupId>
+            <artifactId>sqoop-client</artifactId>
+            <version>1.99.6</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
