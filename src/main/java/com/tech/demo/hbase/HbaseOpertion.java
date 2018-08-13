@@ -103,7 +103,7 @@ public class HbaseOpertion {
         HbaseOpertion opertion = new HbaseOpertion("user");
         try {
             opertion.getData();
-            opertion.putData();
+            // opertion.putData();
         } catch (Exception e) {
             e.printStackTrace();
         }

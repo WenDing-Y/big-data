@@ -16,7 +16,7 @@ public class SqoopTest {
     private SqoopClient client;
 
     public SqoopTest() {
-        String url = "http://centos-2:12000/sqoop/";
+        String url = "http://centos-1:12000/sqoop/";
         client = new SqoopClient(url);
     }
 

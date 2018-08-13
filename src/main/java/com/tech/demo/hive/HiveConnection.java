@@ -10,7 +10,6 @@ import java.sql.SQLException;
  */
 public class HiveConnection {
 
-    // private static String url = "jdbc:hive2://centos-1:2181,centos-2:2181,centos-3:2181/dw;serviceDiscoveryMode=zooKeeper;zooKeeperNamespace=hiveserver2;connection.timeout=10000\n";
     private static String url = "jdbc:hive2://centos-1:10000/dw";
     private static String driverClassName = "org.apache.hive.jdbc.HiveDriver";
 
