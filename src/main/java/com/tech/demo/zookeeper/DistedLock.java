@@ -53,8 +53,7 @@ public class DistedLock extends Thread implements Lock, Watcher {
             //注册监听
             zk.exists(childPath, true);
             //等待
-            System.out.println(Thread.currentThread().getName() + "线程开始等待");
-            latch.wait();
+            latch.await();
             System.out.println(Thread.currentThread().getName() + "线程重新抢锁");
             lock();
             Thread.sleep(1000);
@@ -78,7 +77,7 @@ public class DistedLock extends Thread implements Lock, Watcher {
                 return false;
             } else {
                 String val = zk.create(childPath, "child1".getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL);
-                System.out.println(val + "节点创建");
+                System.out.println(Thread.currentThread().getName() + val + "节点创建");
             }
             return true;
         } catch (KeeperException e) {
@@ -112,26 +111,23 @@ public class DistedLock extends Thread implements Lock, Watcher {
 
     @Override
     public void process(WatchedEvent watchedEvent) {
-        if (watchedEvent != null && watchedEvent.getPath() != null && watchedEvent.getType() != null) {
-            System.out.println(this.getName() + " 监听到临时节点删除");
-            if (watchedEvent.getPath().equals(childPath) && watchedEvent.getType().equals(Event.EventType.NodeDeleted)) {
-                this.latch.countDown();
-            }
+        if (watchedEvent != null) {
+            this.latch.countDown();
         }
     }
 
     public static void main(String[] args) {
-        ExecutorService service = Executors.newFixedThreadPool(5);
-        for (int i = 0; i < 5; i++) {
-            service.submit(new DistedLock("线程" + i));
-        }
+        new DistedLock("线程").start();
+        new DistedLock("线程1").start();
+        new DistedLock("线程2").start();
+        new DistedLock("线程3").start();
     }
 
     @Override
     public void run() {
         this.lock();
         try {
-            Thread.sleep(10000);
+            Thread.sleep(2000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
